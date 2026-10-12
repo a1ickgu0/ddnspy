@@ -1,0 +1,71 @@
+{
+    "app": {
+        "log_level": "info",
+        "log_path": "",
+        "daemon": false,
+        "verbose": false,
+        "once": false
+    },
+
+    "cloudflare": {
+        "api_token": "YOUR_CLOUDFLARE_API_TOKEN",
+        "use_shared_token": true
+    },
+
+    "wan": {
+        "default_interface": "eth0",
+        "failover_enabled": false,
+        "check_interval": 30,
+        "interfaces": [
+            {
+                "name": "eth0",
+                "alias": "LAN (DHCP)",
+                "type": "dhcp",
+                "enabled": true,
+                "detect_ipv4": true,
+                "detect_ipv6": false,
+                "use_external_detect": true,
+                "use_local_read": false,
+                "ipv4_endpoint": "https://ip.sb",
+                "priority": 1,
+                "check_interval": 30
+            }
+        ]
+    },
+
+    "records": [
+        {
+            "id": "ddns_ipv4",
+            "name": "DDNS IPv4 Record",
+            "zone_name": "example.com",
+            "record_name": "ddns.example.com",
+            "record_type": "A",
+            "binding_mode": "auto",
+            "wan_interface": "",
+            "ttl": 300,
+            "proxied": false,
+            "check_interval": 60,
+            "update_on_change": true,
+            "create_if_missing": true,
+            "delete_on_exit": false
+        }
+    ],
+
+    "global_settings": {
+        "default_check_interval": 30,
+        "max_concurrent_updates": 5,
+        "parallel_updates": true
+    },
+
+    "ip_detection": {
+        "timeout_ms": 5000,
+        "retry_count": 3,
+        "retry_delay_ms": 1000,
+        "ipv4_endpoint": "https://ip.sb"
+    },
+
+    "logging": {
+        "level": "info",
+        "format": "timestamp"
+    }
+}

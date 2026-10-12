@@ -1,0 +1,28 @@
+[Unit]
+Description=ddnspy — Cloudflare DDNS updater
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ddnspy
+Group=ddnspy
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/local/bin/ddnspy --daemon --config /etc/ddnspy/config.json
+Restart=on-failure
+RestartSec=10s
+SyslogIdentifier=ddnspy
+
+# --- hardening: the updater only needs network access, its config and its log dir
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=
+ReadWritePaths=/var/log/ddnspy
+
+[Install]
+WantedBy=multi-user.target
